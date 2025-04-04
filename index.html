@@ -1,67 +1,56 @@
 <!DOCTYPE html> 
 <html>
 <head>
-  <title>Estacionamento Hit</title>
+  <title>¿Dónde dejé el auto?</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="manifest" href="manifest.json">
   <style>
     body { font-family: Arial, sans-serif; padding: 10px; }
     div { margin: 10px 0; }
-    h2, h4 { margin: 5px 0; }
   </style>
   <script>
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('serviceWorker.js');
     }
 
-    function guardarSubsolo(piso) {
-      localStorage.setItem("ubicacaoCarro", piso);
-      localStorage.setItem("dataRegistro", new Date().toLocaleString('pt-BR', { weekday: 'long', year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' }));
-      atualizarCheckboxes();
-      mostrarUbicacao();
+    function guardarSubsuelo(piso) {
+      localStorage.setItem("ubicacionAuto", piso);
+      localStorage.setItem("fechaRegistro", new Date().toLocaleString('es-ES', { weekday: 'long', year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' }));
+      actualizarCheckboxes();
+      mostrarUbicacion();
     }
 
-    function atualizarCheckboxes() {
-      const guardado = localStorage.getItem("ubicacaoCarro");
+    function actualizarCheckboxes() {
+      const guardado = localStorage.getItem("ubicacionAuto");
       ['S3', '2S', '1S', '-1', '-2'].forEach(piso => {
         document.getElementById('chk_' + piso).checked = (piso === guardado);
       });
     }
 
-    function mostrarUbicacao() {
-      const subsolo = localStorage.getItem("ubicacaoCarro");
-      const data = localStorage.getItem("dataRegistro");
+    function mostrarUbicacion() {
+      const subsuelo = localStorage.getItem("ubicacionAuto");
+      const fecha = localStorage.getItem("fechaRegistro");
       const resultado = document.getElementById("resultado");
-      if (subsolo && data) {
-        resultado.textContent = ""; // "Última localização: Subsolo " + subsolo + " (atualizado em " + data + ")";
+      if (subsuelo && fecha) {
+        resultado.textContent = "Última ubicación guardada: Subsuelo " + subsuelo + " (actualizado el " + fecha + ")";
       } else {
-        resultado.textContent = ""; //"Nenhuma localização salva ainda.";
+        resultado.textContent = "No hay ubicación guardada aún.";
       }
     }
 
     window.onload = function() {
-      atualizarCheckboxes();
-      mostrarUbicacao();
+      actualizarCheckboxes();
+      mostrarUbicacion();
     };
   </script>
 </head>
 <body>
-  <h2>Estacionamento HIT</h2>
-  <h4 id="dataAtual"></h4>
-
-  <div><input type="checkbox" id="chk_3S" onclick="guardarSubsolo('S3')"><label for="chk_S3">S3</label></div>
-  <div><input type="checkbox" id="chk_2S" onclick="guardarSubsolo('2S')"><label for="chk_2S">2S</label></div>
-  <div><input type="checkbox" id="chk_1S" onclick="guardarSubsolo('1S')"><label for="chk_1S">1S</label></div>
-  <div><input type="checkbox" id="chk_-1" onclick="guardarSubsolo('-1')"><label for="chk_-1">-1</label></div>
-  <div><input type="checkbox" id="chk_-2" onclick="guardarSubsolo('-2')"><label for="chk_-2">-2</label></div>
-
+  <h2>¿Dónde dejé el auto?</h2>
+  <div><input type="checkbox" id="chk_S3" onclick="guardarSubsuelo('S3')"><label for="chk_S3">Subsuelo S3</label></div>
+<div><input type="checkbox" id="chk_2S" onclick="guardarSubsuelo('2S')"><label for="chk_2S">Subsuelo 2S</label></div>
+<div><input type="checkbox" id="chk_1S" onclick="guardarSubsuelo('1S')"><label for="chk_1S">Subsuelo 1S</label></div>
+<div><input type="checkbox" id="chk_-1" onclick="guardarSubsuelo('-1')"><label for="chk_-1">Subsuelo -1</label></div>
+<div><input type="checkbox" id="chk_-2" onclick="guardarSubsuelo('-2')"><label for="chk_-2">Subsuelo -2</label></div>
   <p id="resultado"></p>
-
-  <script>
-    const hoje = new Date();
-    const opcoesData = { weekday: 'short', year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' };
-    document.getElementById("dataAtual").textContent = hoje.toLocaleString('pt-BR', opcoesData);
-  </script>
 </body>
 </html>
-
