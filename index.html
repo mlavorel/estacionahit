@@ -15,7 +15,9 @@
 
     function guardarSubsuelo(piso) {
       localStorage.setItem("ubicacionAuto", piso);
-      localStorage.setItem("fechaRegistro", new Date().toLocaleString('es-ES', { weekday: 'long', year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' }));
+      const opcoesData = { weekday: 'short', year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+      localStorage.setItem("fechaRegistro", new Date().toLocaleString('pt-BR', opcoesData));
+          // <!-- toLocaleString('es-ES', { weekday: 'long', year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' })); -->
       actualizarCheckboxes();
       mostrarUbicacion();
     }
@@ -32,7 +34,7 @@
       const fecha = localStorage.getItem("fechaRegistro");
       const resultado = document.getElementById("resultado");
       if (subsuelo && fecha) {
-        resultado.textContent = "Última ubicación guardada: Subsuelo " + subsuelo + " (actualizado el " + fecha + ")";
+        resultado.textContent = "Última localização: " + subsuelo + " - " + fechaRegistro + ")";
       } else {
         resultado.textContent = "No hay ubicación guardada aún.";
       }
@@ -46,11 +48,12 @@
 </head>
 <body>
   <h2>¿Dónde dejé el auto?</h2>
-  <div><input type="checkbox" id="chk_S3" onclick="guardarSubsuelo('S3')"><label for="chk_S3">Subsuelo S3</label></div>
-<div><input type="checkbox" id="chk_2S" onclick="guardarSubsuelo('2S')"><label for="chk_2S">Subsuelo 2S</label></div>
-<div><input type="checkbox" id="chk_1S" onclick="guardarSubsuelo('1S')"><label for="chk_1S">Subsuelo 1S</label></div>
-<div><input type="checkbox" id="chk_-1" onclick="guardarSubsuelo('-1')"><label for="chk_-1">Subsuelo -1</label></div>
-<div><input type="checkbox" id="chk_-2" onclick="guardarSubsuelo('-2')"><label for="chk_-2">Subsuelo -2</label></div>
   <p id="resultado"></p>
+  <div><input type="checkbox" id="chk_S3" onclick="guardarSubsuelo('S3')"><label for="chk_S3">S3</label></div>
+<div><input type="checkbox" id="chk_2S" onclick="guardarSubsuelo('2S')"><label for="chk_2S">2S</label></div>
+<div><input type="checkbox" id="chk_1S" onclick="guardarSubsuelo('1S')"><label for="chk_1S">1S</label></div>
+<div><input type="checkbox" id="chk_-1" onclick="guardarSubsuelo('-1')"><label for="chk_-1">-1</label></div>
+<div><input type="checkbox" id="chk_-2" onclick="guardarSubsuelo('-2')"><label for="chk_-2">-2</label></div>
+  <!-- <p id="resultado"></p> -->
 </body>
 </html>
