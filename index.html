@@ -7,7 +7,7 @@
   <style>
     body { font-family: Arial, sans-serif; padding: 10px; }
     div { margin: 10px 0; }
-    /* Aumenta o tamanho de los checkboxes */
+    /* Aumenta o tamanho dos checkboxes */
     input[type="checkbox"] {
       transform: scale(2.5);
       transform-origin: left center;
@@ -19,21 +19,16 @@
       font-size: 1.4em;
       margin-left: 5px;
     }
-    /* Estilização dos elementos da linha de localização */
+    /* Estilos para a linha de localização */
     #resultado {
       margin-top: 20px;
     }
-    .uloc-titulo {
-      font-size: 16px;
+    .label {
+      font-size: 16px; /* tamanho usado para "Ult" e data */
+    }
+    .highlight {
+      font-size: 24px; /* tamanho maior para dia da semana e hora */
       font-weight: bold;
-    }
-    .uloc-local {
-      font-size: 20px;
-      margin: 0 5px;
-    }
-    .uloc-data {
-      font-size: 14px;
-      font-style: italic;
     }
   </style>
   <script>
@@ -46,12 +41,12 @@
       
       // Configuração de data/hora
       const opcoesData = {
-        weekday: 'short',
-        day: '2-digit',
-        month: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: false
+        weekday: 'short',    // ex: sex.
+        day: '2-digit',      // ex: 11
+        month: '2-digit',    // ex: 04
+        hour: '2-digit',     // ex: 13
+        minute: '2-digit',   // ex: 34
+        hour12: false        
       };
 
       const dataFormatada = new Date().toLocaleString('pt-BR', opcoesData);
@@ -69,18 +64,21 @@
     }
 
     function mostrarUbicacion() {
-      const subsuelo = localStorage.getItem("ubicacionAuto");
       const fecha = localStorage.getItem("fechaRegistro");
       const resultado = document.getElementById("resultado");
-      if (subsuelo && fecha) {
-        // A estrutura foi definida de forma a exibir:
-        // - O título "Última localização" com fonte menor e em negrito
-        // - O valor da localização com uma fonte maior
-        // - A data em fonte menor e itálico
+      if (fecha) {
+        // Split usando a vírgula como separador
+        const partes = fecha.split(',');
+        // Removemos espaços em branco das partes
+        const weekday = partes[0].trim();  // exemplo: "sex."
+        const date = partes[1].trim();     // exemplo: "11/04"
+        const time = partes[2].trim();     // exemplo: "13:34"
+
+        // Monta a estrutura: "Ult = <weekday>, <time> - <date>"
         resultado.innerHTML = 
-          '<span class="uloc-titulo">Última localização</span>: ' +
-          '<span class="uloc-local">' + subsuelo + '</span> - ' +
-          '<span class="uloc-data">' + fecha + '</span>';
+          '<span class="label">Ult</span> = ' +
+          '<span class="highlight">' + weekday + ', ' + time + '</span> - ' +
+          '<span class="label">' + date + '</span>';
       } else {
         resultado.textContent = "Não há localização guardada ainda.";
       }
@@ -95,10 +93,25 @@
 <body>
   <h2>Estacionamento no Hit</h2>
   <p id="resultado"></p>
-  <div><input type="checkbox" id="chk_S3" onclick="guardarSubsuelo('S3')"><label for="chk_S3">S3</label></div>
-  <div><input type="checkbox" id="chk_2S" onclick="guardarSubsuelo('2S')"><label for="chk_2S">2S</label></div>
-  <div><input type="checkbox" id="chk_1S" onclick="guardarSubsuelo('1S')"><label for="chk_1S">1S</label></div>
-  <div><input type="checkbox" id="chk_-1" onclick="guardarSubsuelo('-1')"><label for="chk_-1">-1</label></div>
-  <div><input type="checkbox" id="chk_-2" onclick="guardarSubsuelo('-2')"><label for="chk_-2">-2</label></div>
+  <div>
+    <input type="checkbox" id="chk_S3" onclick="guardarSubsuelo('S3')">
+    <label for="chk_S3">S3</label>
+  </div>
+  <div>
+    <input type="checkbox" id="chk_2S" onclick="guardarSubsuelo('2S')">
+    <label for="chk_2S">2S</label>
+  </div>
+  <div>
+    <input type="checkbox" id="chk_1S" onclick="guardarSubsuelo('1S')">
+    <label for="chk_1S">1S</label>
+  </div>
+  <div>
+    <input type="checkbox" id="chk_-1" onclick="guardarSubsuelo('-1')">
+    <label for="chk_-1">-1</label>
+  </div>
+  <div>
+    <input type="checkbox" id="chk_-2" onclick="guardarSubsuelo('-2')">
+    <label for="chk_-2">-2</label>
+  </div>
 </body>
 </html>
