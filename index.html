@@ -7,18 +7,34 @@
   <style>
     body { font-family: Arial, sans-serif; padding: 10px; }
     div { margin: 10px 0; }
-    /* Aumenta el tamaño de los checkboxes */
-  input[type="checkbox"] {
-    transform: scale(2.5);
-    transform-origin: left center; /* Define a origem do scale */
-    margin-right: 30px;            /* Espaçamento horizontal */
-    margin-bottom: 15px;           /* Espaçamento vertical entre linhas */
-    vertical-align: middle;
-  }
-  label {
-   font-size: 1.4em; /* Ou especifique o tamanho em px, ex: 18px */
-   margin-left: 5px; /* Ajusta o espaçamento em relação ao checkbox, se necessário */
-  }
+    /* Aumenta o tamanho de los checkboxes */
+    input[type="checkbox"] {
+      transform: scale(2.5);
+      transform-origin: left center;
+      margin-right: 30px;
+      margin-bottom: 15px;
+      vertical-align: middle;
+    }
+    label {
+      font-size: 1.4em;
+      margin-left: 5px;
+    }
+    /* Estilização dos elementos da linha de localização */
+    #resultado {
+      margin-top: 20px;
+    }
+    .uloc-titulo {
+      font-size: 16px;
+      font-weight: bold;
+    }
+    .uloc-local {
+      font-size: 20px;
+      margin: 0 5px;
+    }
+    .uloc-data {
+      font-size: 14px;
+      font-style: italic;
+    }
   </style>
   <script>
     if ('serviceWorker' in navigator) {
@@ -30,12 +46,12 @@
       
       // Configuração de data/hora
       const opcoesData = {
-        weekday: 'short',    // Dia da semana abreviado (ex: seg., ter., qua.)
-        day: '2-digit',      // Dia do mês com 2 dígitos
-        month: '2-digit',    // Mês com 2 dígitos
-        hour: '2-digit',     // Formato de hora com 2 dígitos
-        minute: '2-digit',   // Minutos com 2 dígitos
-        hour12: false        // Use false para formato 24h (se preferir 12h, deixe em true ou remova)
+        weekday: 'short',
+        day: '2-digit',
+        month: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false
       };
 
       const dataFormatada = new Date().toLocaleString('pt-BR', opcoesData);
@@ -57,8 +73,14 @@
       const fecha = localStorage.getItem("fechaRegistro");
       const resultado = document.getElementById("resultado");
       if (subsuelo && fecha) {
-        // Corrija aqui para usar a variável 'fecha' que você acabou de recuperar
-        resultado.textContent = "Última localização: " + subsuelo + " - " + fecha;
+        // A estrutura foi definida de forma a exibir:
+        // - O título "Última localização" com fonte menor e em negrito
+        // - O valor da localização com uma fonte maior
+        // - A data em fonte menor e itálico
+        resultado.innerHTML = 
+          '<span class="uloc-titulo">Última localização</span>: ' +
+          '<span class="uloc-local">' + subsuelo + '</span> - ' +
+          '<span class="uloc-data">' + fecha + '</span>';
       } else {
         resultado.textContent = "Não há localização guardada ainda.";
       }
@@ -74,10 +96,9 @@
   <h2>Estacionamento no Hit</h2>
   <p id="resultado"></p>
   <div><input type="checkbox" id="chk_S3" onclick="guardarSubsuelo('S3')"><label for="chk_S3">S3</label></div>
-<div><input type="checkbox" id="chk_2S" onclick="guardarSubsuelo('2S')"><label for="chk_2S">2S</label></div>
-<div><input type="checkbox" id="chk_1S" onclick="guardarSubsuelo('1S')"><label for="chk_1S">1S</label></div>
-<div><input type="checkbox" id="chk_-1" onclick="guardarSubsuelo('-1')"><label for="chk_-1">-1</label></div>
-<div><input type="checkbox" id="chk_-2" onclick="guardarSubsuelo('-2')"><label for="chk_-2">-2</label></div>
-  <!-- <p id="resultado"></p> -->
+  <div><input type="checkbox" id="chk_2S" onclick="guardarSubsuelo('2S')"><label for="chk_2S">2S</label></div>
+  <div><input type="checkbox" id="chk_1S" onclick="guardarSubsuelo('1S')"><label for="chk_1S">1S</label></div>
+  <div><input type="checkbox" id="chk_-1" onclick="guardarSubsuelo('-1')"><label for="chk_-1">-1</label></div>
+  <div><input type="checkbox" id="chk_-2" onclick="guardarSubsuelo('-2')"><label for="chk_-2">-2</label></div>
 </body>
 </html>
